@@ -356,11 +356,19 @@ Founding pilot · now accepting independent vet clinics
       setTimeout(function(){ btn.textContent='Apply for the 14-day pilot'; },2200);
       return;
     }
-    var subject='Pilot application: '+clinic;
-    var body='Clinic: '+clinic+'\nEmail: '+email+'\nPhone system: '+phones+'\n\nSent from the texttriage.co pilot form.';
-    window.location.href='mailto:brian@texttriage.co?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-    btn.textContent='Opening your email…';
-    setTimeout(function(){ btn.textContent='Apply for the 14-day pilot'; },3000);
+    btn.disabled=true;
+    btn.textContent='Sending...';
+    fetch('https://formspree.io/f/mnpnyynv',{
+      method:'POST',
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({_subject:'Pilot application: '+clinic,_replyto:email,clinic:clinic,email:email,'phone system':phones})
+    }).then(function(r){
+      if(!r.ok) throw new Error('bad response');
+      btn.textContent="Application received - we'll be in touch within one business day.";
+    }).catch(function(){
+      btn.disabled=false;
+      btn.textContent='Something went wrong - please email brian@texttriage.co directly';
+    });
   });
 })();
 </script>
