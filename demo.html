@@ -19,7 +19,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 a{color:var(--mint)}
 ::selection{background:var(--rose);color:#0E1512}
 
@@ -29,7 +29,7 @@ a{color:var(--mint)}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .wordmark{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
 .wordmark .t{color:var(--mint)}.wordmark .r{color:var(--rose)}
-.nav-cta{font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;border:1.5px solid var(--line);border-radius:999px;padding:9px 18px}
+.nav-cta{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;font-size:15px;font-weight:600;color:#0E1512;background:#F8F3E6;text-decoration:none;border-radius:999px}
 .nav-cta:hover{border-color:var(--mint)}
 
 /* hero */
@@ -233,7 +233,7 @@ footer a{color:var(--muted);text-decoration:none}
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/" aria-label="TextTriage home"><svg width="42" height="42" aria-hidden="true"><use href="#tt-mark"/></svg><span class="wordmark" style="font-size:23px"><span class="t">Text</span><span class="r">Triage</span></span></a>
-    <a class="nav-cta" href="/">Find your plan →</a>
+    <a class="nav-cta" href="/">Find your plan</a>
   </div>
 </header>
 
