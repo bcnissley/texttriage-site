@@ -797,13 +797,20 @@ button,input,select,textarea{font:inherit;color:inherit}
     show('step-result', 'result-title', 'Your plan', ['done', 'done', 'on']);
   }
 
+  function resetQuiz() {
+    clearInterval(redirectTimer);
+    state = { v: null, size: null };
+    input.value = ''; render();
+    show('step-industry', 'industry-input', 'Step 1 of 2', ['on', '', '']);
+  }
   document.querySelectorAll('[data-restart]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      clearInterval(redirectTimer);
-      state = { v: null, size: null };
-      input.value = ''; render();
-      show('step-industry', 'industry-input', 'Step 1 of 2', ['on', '', '']);
-    });
+    b.addEventListener('click', resetQuiz);
+  });
+
+  // Back-button return (bfcache restore): start the quiz fresh instead of
+  // showing the stale confirmation card / frozen countdown.
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) resetQuiz();
   });
 
   // Hero / pricing CTAs: scroll to quiz and focus the search
