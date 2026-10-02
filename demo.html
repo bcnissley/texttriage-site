@@ -393,6 +393,8 @@ async function playCaller(t){
       co = document.getElementById('caller-composer');
   resetPhone('caller-thread', 'caller-composer', 'caller-status');
   await wait(700); if (!alive(t)) return;
+  addMsg(th, "Hi, it's Jordan Blake Photography \u2014 I'm on a shoot and can't pick up! Reply with what you need and I'll get back to you.", false, 'TextTriage');
+  await wait(1000); if (!alive(t)) return;
   if (callerScn === 'urgent'){
     if (!await sendAs(th, co, "Hi! Do you have October 12th open for our wedding? We love your work!", t, true)) return;
     await wait(500); if (!alive(t)) return;
@@ -473,6 +475,7 @@ async function playConsole(t){
   note.textContent = 'SMS sent to owner \u00b7 9:41 PM';
   setStatus('console-status', 'urgent', 'ESCALATED \u00b7 owner notified by SMS');
   var script = [
+    ['TextTriage', 'tt', "Hi, it's Jordan Blake Photography \u2014 I'm on a shoot and can't pick up! Reply with what you need and I'll get back to you."],
     ['Caller', 'caller', "Hi! Do you have October 12th open for our wedding? We love your work!"],
     ['TextTriage', 'tt', "Congratulations! October 12th is currently open \u2014 flagged for Jordan. What's the venue?"],
     ['Caller', 'caller', "The Rosewood Barn \u2014 about 120 guests"],
