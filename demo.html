@@ -123,7 +123,7 @@ a{color:var(--mint)}
 .threadrow .tr-name{font-weight:700}
 .threadrow .tr-prev{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .threadrow.pulsing{border-color:var(--rose);animation:pulse 1.6s infinite}
-.cmain{padding:20px;min-height:340px}
+.cmain{padding:20px;min-height:0}
 .cdetail-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cdetail-head b{font-size:17px}
 .chip{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:5px 12px}
@@ -138,6 +138,36 @@ a{color:var(--mint)}
 .cnote{margin-top:16px;font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px;min-height:40px}
 .cempty{color:var(--muted-2);font-size:14px;text-align:center;padding:40px 0}
 
+/* tap hints */
+.tryhint{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);margin-bottom:10px;transition:opacity .4s}
+.tryhint.seen{opacity:0;pointer-events:none}
+.tryhint .pulse-dot{width:9px;height:9px;border-radius:50%;background:var(--rose);animation:pulse 1.6s infinite}
+/* console sub-views */
+.csubnav{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--deep);flex-wrap:wrap;align-items:center}
+.csub{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:8px 18px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;min-height:40px}
+.csub:hover{border-color:var(--mint);color:var(--ink)}
+.csub.active{background:var(--mint);border-color:var(--mint);color:#0E1512}
+.cviews{height:480px;overflow:hidden}
+.cview{height:100%;overflow-y:auto;scrollbar-width:thin}
+#cview-inbox .cbody{height:100%}
+#cview-inbox .cmain{overflow-y:auto}
+#cview-inbox .cside{overflow-y:auto}
+#cview-ignore,#cview-settings{padding:20px}
+.cview-lede{color:var(--muted);font-size:14.5px;line-height:1.6;margin:0 0 16px}
+.igrow{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--deep);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.igrow b{display:block;font-size:15px;margin-bottom:2px}
+.igrow div span{font-size:13px;color:var(--muted-2)}
+.igrow.add{border-style:dashed;cursor:default}
+.igrow.add b{color:var(--mint)}
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--deep);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:10px}
+.setrow b{display:block;font-size:15px;margin-bottom:4px}
+.setrow div span{font-size:13.5px;color:var(--muted);line-height:1.5}
+.toggle{flex:none;width:58px;height:32px;border-radius:999px;background:rgba(182,211,193,.25);border:1px solid var(--mint);position:relative;cursor:default}
+.toggle .knob{position:absolute;top:3px;left:30px;width:22px;height:22px;border-radius:50%;background:var(--mint)}
+@media(max-width:759px){
+  .cviews{height:560px}
+  #cview-inbox .cside{max-height:38%}
+}
 /* bottom why */
 .whygrid{padding:72px 0 8px}
 .whygrid h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;text-align:center;margin:0 0 12px}
@@ -190,6 +220,7 @@ footer a{color:var(--muted);text-decoration:none}
   <section class="panel active" id="panel-caller" role="tabpanel" aria-labelledby="tab-caller" tabindex="0">
     <div class="stage">
       <div>
+        <div class="tryhint"><span class="pulse-dot"></span>Tap a scenario — it plays by itself</div>
         <div class="spills" role="group" aria-label="Caller scenarios">
           <button class="spill" data-caller-scn="urgent" aria-pressed="true"><span class="dot" style="background:var(--rose)"></span>Urgent booking · escalated</button>
           <button class="spill" data-caller-scn="pricing" aria-pressed="false"><span class="dot" style="background:var(--mint)"></span>Pricing question · closed</button>
@@ -221,6 +252,7 @@ footer a{color:var(--muted);text-decoration:none}
   <section class="panel" id="panel-owner" role="tabpanel" aria-labelledby="tab-owner" tabindex="0" hidden>
     <div class="stage">
       <div>
+        <div class="tryhint"><span class="pulse-dot"></span>Tap a scenario — it plays by itself</div>
         <div class="spills" role="group" aria-label="Owner scenarios">
           <button class="spill" data-owner-scn="urgent" aria-pressed="true"><span class="dot" style="background:var(--rose)"></span>Urgent booking · SMS alert</button>
           <button class="spill" data-owner-scn="pricing" aria-pressed="false"><span class="dot" style="background:var(--mint)"></span>Pricing question · silent</button>
@@ -255,7 +287,15 @@ footer a{color:var(--muted);text-decoration:none}
     </div>
     <div class="console" aria-label="Client console demo">
       <div class="cbar"><i></i><i></i><i></i><span>TextTriage Console</span></div>
-      <div class="cbody">
+      <div class="csubnav">
+        <span class="tryhint" style="margin:0">👆 Peek inside</span>
+        <button class="csub active" data-cview="inbox">Inbox</button>
+        <button class="csub" data-cview="ignore">Ignore List</button>
+        <button class="csub" data-cview="settings">Settings</button>
+      </div>
+      <div class="cviews">
+        <div class="cview" id="cview-inbox">
+          <div class="cbody">
         <div class="cside">
           <div class="cfilter hot"><span>Escalated</span><span class="n" id="n-esc">0</span></div>
           <div class="cfilter"><span>Open</span><span class="n" id="n-open">0</span></div>
@@ -265,6 +305,21 @@ footer a{color:var(--muted);text-decoration:none}
         <div class="cmain">
           <div id="console-detail"><div class="cempty">Waiting for the next missed call…</div></div>
           <div class="cnote" id="console-note"></div>
+        </div>
+          </div>
+        </div>
+        <div class="cview" id="cview-ignore" hidden>
+          <p class="cview-lede">Never engage — calls from these numbers skip TextTriage entirely and go straight to voicemail.</p>
+          <div class="igrow"><div><b>Mom</b><span>(555) 014-2288 · family</span></div><span class="chip auto">Never text</span></div>
+          <div class="igrow"><div><b>Sam Whitfield</b><span>(555) 882-1190 · fellow photographer</span></div><span class="chip auto">Never text</span></div>
+          <div class="igrow"><div><b>Blocked / unknown callers</b><span>auto-added</span></div><span class="chip auto">Never text</span></div>
+          <div class="igrow add"><div><b>+ Add from recent calls</b><span>or upload a CSV</span></div></div>
+        </div>
+        <div class="cview" id="cview-settings" hidden>
+          <div class="setrow"><div><b>TextTriage master switch</b><span>ON — handling missed calls. Flip it off on your day off.</span></div><span class="toggle on" aria-hidden="true"><span class="knob"></span></span></div>
+          <div class="setrow"><div><b>Quiet hours</b><span>10:00 PM – 7:00 AM · urgent-only interruptions</span></div><span class="chip done">On</span></div>
+          <div class="setrow"><div><b>VIP list</b><span>3 numbers skip the queue and escalate immediately</span></div><span class="chip done">3 active</span></div>
+          <div class="setrow"><div><b>Morning summary</b><span>Skimmable digest of every overnight thread</span></div><span class="chip auto">Off</span></div>
         </div>
       </div>
     </div>
@@ -347,11 +402,16 @@ async function typeComposer(composer, text, t){
   var span = composer.querySelector('.ctext');
   span.textContent = '';
   composer.classList.add('typing');
-  var step = reduceMotion ? text.length : 1;
-  for (var i = 0; i < text.length; i += step){
+  if (reduceMotion){ span.textContent = text; return true; }
+  for (var i = 0; i < text.length; i++){
     if (!alive(t)) return false;
-    span.textContent = text.slice(0, i + step);
-    if (!reduceMotion) await wait(22 + Math.random() * 34);
+    span.textContent = text.slice(0, i + 1);
+    var ch = text[i], d = 48 + Math.random() * 78;
+    if (ch === ' ') d += 35;
+    if (',;'.indexOf(ch) > -1) d += 200;
+    if ('.!?'.indexOf(ch) > -1) d += 340;
+    if (Math.random() < 0.045) d += 450;
+    await wait(d);
   }
   return true;
 }
@@ -484,10 +544,12 @@ async function playConsole(t){
   for (var i = 0; i < script.length; i++){
     await wait(950); if (!alive(t)) return;
     lines.appendChild(cLine(script[i][0], script[i][1], script[i][2]));
+    scrollConsoleMain();
   }
   /* owner takes it */
   await wait(1200); if (!alive(t)) return;
   lines.appendChild(cLine('Owner', 'owner', 'On it \u2014 calling now (sent by SMS)'));
+  scrollConsoleMain();
   await wait(900); if (!alive(t)) return;
   var chip = detail.querySelector('.chip');
   chip.className = 'chip done'; chip.textContent = 'Handled';
@@ -504,6 +566,37 @@ async function playConsole(t){
   list.appendChild(row2);
   document.getElementById('n-done').textContent = '2';
   note.textContent = 'Pricing question resolved itself \u2014 the owner was never interrupted.';
+  await wait(2200); if (!alive(t)) return;
+  showCView('ignore');
+  setStatus('console-status', '', 'IGNORE LIST \u00b7 people TextTriage never texts');
+  await wait(3400); if (!alive(t)) return;
+  showCView('settings');
+  setStatus('console-status', '', 'SETTINGS \u00b7 the master switch lives here');
+  await wait(3400); if (!alive(t)) return;
+  showCView('inbox');
+  setStatus('console-status', 'closed', 'TRIAGE COMPLETE \u00b7 inbox, ignore list, settings');
+}
+
+/* ---------- console sub-views ---------- */
+function showCView(name){
+  ['inbox','ignore','settings'].forEach(function(n){
+    document.getElementById('cview-' + n).hidden = n !== name;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.csub'), function(b){
+    b.classList.toggle('active', b.getAttribute('data-cview') === name);
+  });
+}
+Array.prototype.forEach.call(document.querySelectorAll('.csub'), function(b){
+  b.addEventListener('click', function(){
+    runToken++;
+    showCView(b.getAttribute('data-cview'));
+    var h = b.closest('.console').querySelector('.tryhint');
+    if (h) h.classList.add('seen');
+  });
+});
+function scrollConsoleMain(){
+  var m = document.querySelector('#cview-inbox .cmain');
+  if (m) m.scrollTop = m.scrollHeight;
 }
 
 /* ---------- tabs + wiring ---------- */
@@ -533,6 +626,9 @@ function wirePills(attr, get, set, replay){
         x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
       });
       set(b.getAttribute(attr));
+      var panel = b.closest('.panel');
+      var h = panel ? panel.querySelector('.tryhint') : null;
+      if (h) h.classList.add('seen');
       replay(runToken);
     });
   });
@@ -541,7 +637,7 @@ wirePills('data-caller-scn', null, function(v){ callerScn = v; }, playCaller);
 wirePills('data-owner-scn', null, function(v){ ownerScn = v; }, playOwner);
 document.getElementById('caller-replay').addEventListener('click', function(){ runToken++; playCaller(runToken); });
 document.getElementById('owner-replay').addEventListener('click', function(){ runToken++; playOwner(runToken); });
-document.getElementById('console-replay').addEventListener('click', function(){ runToken++; playConsole(runToken); });
+document.getElementById('console-replay').addEventListener('click', function(){ runToken++; showCView('inbox'); playConsole(runToken); });
 
 /* go */
 selectTab('caller');
