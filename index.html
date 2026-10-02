@@ -492,6 +492,10 @@ button,input,select,textarea{font:inherit;color:inherit}
     'photographers': '/photographers', 'film-industry': '/film-industry',
     'djs': '/djs', 'musicians': '/musicians',
     'comedians': '/comedians', 'artists': '/artists' };
+  var SUBPAGES_BIZ = { 'photographers': '/photographers-business', 'djs': '/djs-business',
+    'musicians': '/musicians-business', 'artists': '/artists-business' };
+  var BIZ_NAMES = { 'photographers': 'Photography studios', 'djs': 'DJ companies',
+    'musicians': 'Bands & groups', 'artists': 'Art studios' };
 
   var LOG_KEY = 'texttriage_router_log';
 
@@ -748,15 +752,20 @@ button,input,select,textarea{font:inherit;color:inherit}
     'djs': 'See the exact texts a June wedding inquiry gets at 9:35 PM on a Saturday \u2014 while you\u2019re mid-reception.',
     'musicians': 'Watch a corporate gig inquiry get answered mid-set \u2014 and nudged to you the second the song ends.',
     'comedians': 'See how a December corporate booking gets captured mid-set \u2014 while you\u2019re on stage.',
-    'artists': 'Watch a commission inquiry get answered mid-canvas \u2014 hands covered in paint, phone across the room.'
+    'artists': 'Watch a commission inquiry get answered mid-canvas \u2014 hands covered in paint, phone across the room.',
+    'photographers-business': 'See how a multi-shooter studio never misses a $4,000 wedding inquiry \u2014 even with three weddings on the same Saturday.',
+    'djs-business': 'See how your booker gets every June wedding inquiry the second it lands \u2014 while your DJs are mid-reception.',
+    'musicians-business': 'Watch a corporate gig inquiry reach the whole band instantly \u2014 and get answered before the headliner replies.',
+    'artists-business': 'See how a second commission inquiry gets captured mid-handshake \u2014 while the studio talks to buyer number one.'
   };
   var redirectTimer = null;
-  function startRedirect(v, url) {
+  function startRedirect(v, url, teaserKey, displayName) {
     clearInterval(redirectTimer);
-    $('redirect-vertical').textContent = v.name.toLowerCase();
-    $('redirect-teaser').textContent = TEASERS[v.slug] || ('Demo conversations, pricing and FAQs written for ' + v.name.toLowerCase() + '.');
+    var label = displayName || v.name;
+    $('redirect-vertical').textContent = label.toLowerCase();
+    $('redirect-teaser').textContent = TEASERS[teaserKey || v.slug] || ('Demo conversations, pricing and FAQs written for ' + label.toLowerCase() + '.');
     var cta = $('redirect-cta');
-    cta.textContent = 'Take me to the ' + v.name + ' page \u2192';
+    cta.textContent = 'Take me to the ' + label + ' page \u2192';
     cta.setAttribute('href', url);
     cta.onclick = function () { clearInterval(redirectTimer); };
     show('step-redirect', 'redirect-title', 'Done', ['done', 'done', 'done']);
@@ -780,7 +789,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 
     logCompletion({ vertical: v.name, slug: v.slug, tier: tier, solo_or_business: size, timestamp: new Date().toISOString() });
 
-    if (SUBPAGES[v.slug]) { startRedirect(v, SUBPAGES[v.slug]); return; }
+    var bizUrl = (size === 'business' && SUBPAGES_BIZ[v.slug]) ? SUBPAGES_BIZ[v.slug] : null;
+    var pageUrl = bizUrl || SUBPAGES[v.slug];
+    if (pageUrl) { startRedirect(v, pageUrl, bizUrl ? v.slug + '-business' : v.slug, bizUrl ? BIZ_NAMES[v.slug] : null); return; }
 
     $('r-tier').textContent = t.label;
     $('result-title').textContent = v.name;
