@@ -25,7 +25,8 @@ a{color:var(--mint)}
 
 /* header */
 .site-header{position:sticky;top:0;z-index:50;background:rgba(14,21,18,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.site-header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .wordmark{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
 .wordmark .t{color:var(--mint)}.wordmark .r{color:var(--rose)}
 .nav-cta{font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;border:1.5px solid var(--line);border-radius:999px;padding:9px 18px}
@@ -215,10 +216,23 @@ footer a{color:var(--muted);text-decoration:none}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<clipPath id="tt-l"><rect x="0" y="0" width="32.5" height="64"/></clipPath>
+<clipPath id="tt-r"><rect x="32" y="0" width="32" height="64"/></clipPath>
+<symbol id="tt-mark" viewBox="0 0 64 64">
+<path d="M30 5c14-2 28 6 29 20 1 13-9 23-23 23-5 0-9-1-13 0l-12 9 3-12C6 41 3 33 4 25 6 14 17 7 30 5z" fill="#E06A50" clip-path="url(#tt-l)"/>
+<path d="M30 5c14-2 28 6 29 20 1 13-9 23-23 23-5 0-9-1-13 0l-12 9 3-12C6 41 3 33 4 25 6 14 17 7 30 5z" fill="#B6D3C1" clip-path="url(#tt-r)"/>
+<g transform="translate(32 32) scale(0.8628) translate(-32 -32)">
+<rect transform="translate(0.097 0)" x="15.5" y="14" width="5" height="15" rx="2.5" fill="#0E1512"/>
+<circle transform="translate(0.097 0)" cx="18" cy="37" r="3" fill="#0E1512"/>
+<path transform="translate(1.099 0)" d="M39 28l4.5 4.5 8.8-9.9" fill="none" stroke="#0E1512" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</symbol>
+</defs></svg>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="wordmark" href="/"><span class="t">Text</span><span class="r">Triage</span></a>
+    <a class="brand" href="/" aria-label="TextTriage home"><svg width="42" height="42" aria-hidden="true"><use href="#tt-mark"/></svg><span class="wordmark" style="font-size:23px"><span class="t">Text</span><span class="r">Triage</span></span></a>
     <a class="nav-cta" href="/">Find your plan →</a>
   </div>
 </header>
